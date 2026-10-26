@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeeves — Propuesta Argentina & EE. UU. · Kids Corp</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --gold-pale: #FDF3D7;
+      --dark: #0A0A0A;
+      --dark2: #141414;
+      --dark3: #1E1E1E;
+      --dark4: #2A2A2A;
+      --gray: #6B7280;
+      --gray-light: #9CA3AF;
+      --white: #FFFFFF;
+      --off-white: #F9F9F7;
+      --border: rgba(255,255,255,0.08);
+      --usdc: #2775CA;
+      --usdt: #26A17B;
+      --kd-blue: #2E6BFF;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Helvetica, Arial, sans-serif;
+      background: var(--off-white);
+      color: #111;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Typography ── */
+    h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.025em; }
+    h3 { font-size: 1.25rem; font-weight: 700; }
+    h4 { font-size: 1rem; font-weight: 600; }
+    p { color: #444; }
+    em { font-style: normal; color: var(--gold); }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #E5E7EB;
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 1rem; }
+    .nav-brand .jeeves-logo {
+      font-size: 1.3rem; font-weight: 900; letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #0A0A0A 0%, #444 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-divider { width: 1px; height: 24px; background: #D1D5DB; }
+    .nav-client { font-size: 0.85rem; font-weight: 700; color: var(--kd-blue); letter-spacing: 0.02em; }
+    .nav-links { display: flex; gap: 0.5rem; }
+    .nav-links a {
+      font-size: 0.8rem; font-weight: 500; color: #555;
+      text-decoration: none; padding: 0.4rem 0.75rem;
+      border-radius: 6px; transition: all 0.2s;
+    }
+    .nav-links a:hover { background: #F3F4F6; color: #111; }
+    .nav-cta {
+      background: var(--dark); color: var(--white);
+      font-size: 0.82rem; font-weight: 600;
+      padding: 0.5rem 1.1rem; border-radius: 8px;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #333; }
+
+    /* ── Section Wrapper ── */
+    .section { padding: 6rem 2rem; }
+    .section.dark { background: var(--dark); color: var(--white); }
+    .section.dark p { color: var(--gray-light); }
+    .section.dark-alt { background: var(--dark2); color: var(--white); }
+    .section.dark-alt p { color: var(--gray-light); }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      background: rgba(201,168,76,0.12); color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.35rem 0.85rem; border-radius: 999px; margin-bottom: 1.25rem;
+    }
+    .section-badge.light { background: rgba(201,168,76,0.08); }
+
+    /* ── Hero ── */
+    #sec-hero {
+      background: var(--dark);
+      padding: 6rem 2rem 5rem;
+      color: var(--white);
+      position: relative; overflow: hidden;
+    }
+    #sec-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(201,168,76,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .hero-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .hero-title { color: var(--white); margin-bottom: 1.25rem; }
+    .hero-title em { color: var(--gold); }
+    .hero-subtitle { font-size: 1.1rem; color: #9CA3AF; margin-bottom: 2.5rem; line-height: 1.7; }
+    .hero-stats { display: flex; gap: 2rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .hero-stat { text-align: left; }
+    .hero-stat .num { font-size: 2rem; font-weight: 900; color: var(--gold); letter-spacing: -0.03em; }
+    .hero-stat .lbl { font-size: 0.75rem; color: #6B7280; font-weight: 500; margin-top: 0.15rem; }
+    .hero-cta-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold); color: var(--dark);
+      font-weight: 700; font-size: 0.9rem;
+      padding: 0.85rem 1.8rem; border-radius: 10px;
+      text-decoration: none; transition: all 0.2s;
+      display: inline-block; letter-spacing: -0.01em;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-ghost {
+      color: var(--gray-light); font-weight: 500; font-size: 0.9rem;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--white); }
+
+    /* Card visual — Jeeves Elite */
+    .hero-visual { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+    .jcard {
+      width: 100%; max-width: 470px; aspect-ratio: 1.586;
+      border-radius: 24px; padding: 1.9rem 2.1rem;
+      background: linear-gradient(125deg, #0D0D0D 0%, #1B1B1B 48%, #2B2412 100%);
+      border: 1px solid rgba(201,168,76,0.35);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.03) inset;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: space-between;
+      transform: rotate(-2.5deg);
+    }
+    .jcard::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 55% 70% at 82% 12%, rgba(201,168,76,0.22) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .jcard::after {
+      content: '';
+      position: absolute; top: -60%; left: -20%;
+      width: 55%; height: 220%;
+      background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.045) 45%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.045) 55%, transparent 100%);
+      transform: rotate(12deg);
+      pointer-events: none;
+    }
+    .jcard-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .jcard-logo { font-size: 1.45rem; font-weight: 900; letter-spacing: -0.04em; color: var(--white); }
+    .jcard-elite {
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
+      background: linear-gradient(135deg, var(--gold) 0%, #E8C96A 55%, #A9863A 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      border: 1px solid rgba(201,168,76,0.45);
+      padding: 0.32rem 0.8rem; border-radius: 999px;
+    }
+    .jcard-mid { display: flex; align-items: center; gap: 1rem; }
+    .jcard-chip {
+      width: 48px; height: 36px; border-radius: 7px;
+      background: linear-gradient(135deg, #E8C96A 0%, #C9A84C 45%, #9A7B32 100%);
+      position: relative; flex-shrink: 0;
+    }
+    .jcard-chip::before {
+      content: '';
+      position: absolute; inset: 6px;
+      border: 1px solid rgba(60,45,10,0.55); border-radius: 4px;
+    }
+    .jcard-chip::after {
+      content: '';
+      position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+      background: rgba(60,45,10,0.55);
+    }
+    .jcard-wave { font-size: 1.2rem; color: rgba(255,255,255,0.55); transform: rotate(90deg); }
+    .jcard-number {
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem); font-weight: 600; color: #E5E7EB;
+      letter-spacing: 0.14em; font-variant-numeric: tabular-nums;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+    .jcard-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+    .jcard-holder .lbl, .jcard-exp .lbl {
+      font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: #6B7280; margin-bottom: 0.2rem;
+    }
+    .jcard-holder .val { font-size: 0.95rem; font-weight: 700; color: var(--white); letter-spacing: 0.08em; text-transform: uppercase; }
+    .jcard-exp .val { font-size: 0.85rem; font-weight: 600; color: #D1D5DB; letter-spacing: 0.08em; }
+    .jcard-company { font-size: 0.95rem; font-weight: 800; letter-spacing: 0.06em; color: var(--gold); }
+    .jcard-caption { font-size: 0.78rem; color: #6B7280; text-align: center; }
+    .jcard-caption strong { color: var(--gold); font-weight: 700; }
+
+    /* ── Grid Layouts ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+
+    /* ── Feature Cards ── */
+    .feat-card {
+      background: var(--dark3); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+    }
+    .feat-card-light {
+      background: var(--white); border: 1px solid #E5E7EB;
+      border-radius: var(--radius); padding: 1.75rem;
+    }
+    .feat-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .feat-card h4 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+    .feat-card p { font-size: 0.85rem; line-height: 1.65; }
+    .feat-card-light h4 { font-size: 1rem; font-weight: 700; color: #111; margin-bottom: 0.5rem; }
+    .feat-card-light p { font-size: 0.85rem; line-height: 1.65; color: #555; }
+
+    /* ── Section Header ── */
+    .sec-header { margin-bottom: 3rem; }
+    .sec-header h2 em { color: var(--gold); }
+    .sec-header p { font-size: 1.05rem; margin-top: 0.75rem; max-width: 640px; }
+    .sec-header.center { text-align: center; }
+    .sec-header.center p { margin-left: auto; margin-right: auto; }
+
+    /* ── Comparison Table ── */
+    .compare-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+    .compare-table th {
+      padding: 1rem 1.25rem; text-align: left;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      color: #9CA3AF; border-bottom: 1px solid var(--border);
+    }
+    .compare-table th:not(:first-child) { text-align: center; }
+    .compare-table td {
+      padding: 1rem 1.25rem; font-size: 0.88rem; color: #D1D5DB;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+    }
+    .compare-table td:not(:first-child) { text-align: center; }
+    .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .compare-table .col-jeeves { background: rgba(201,168,76,0.06); }
+    .compare-table th.col-jeeves { color: var(--gold); }
+    .check { color: #34D399; font-size: 1.1rem; }
+    .cross { color: #F87171; font-size: 1.1rem; }
+    .neutral { color: #9CA3AF; }
+
+    /* ── Calculator ── */
+    .calc-wrapper {
+      background: var(--white); border-radius: 20px;
+      border: 1px solid #E5E7EB; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .calc-header {
+      background: var(--dark); padding: 1.5rem 2rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .calc-header h3 { color: var(--white); font-size: 1rem; }
+    .calc-header .badge {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em;
+      background: rgba(201,168,76,0.2); color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 0.25rem 0.65rem; border-radius: 999px;
+    }
+    .calc-body { padding: 2rem; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .calc-section-title {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--gray); margin-bottom: 1rem;
+      padding-bottom: 0.5rem; border-bottom: 1px solid #E5E7EB;
+    }
+    .calc-field { margin-bottom: 1.25rem; }
+    .calc-field label { font-size: 0.82rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.4rem; }
+    .calc-field .hint { font-size: 0.72rem; color: var(--gray); margin-top: 0.25rem; }
+    .calc-input-wrap { position: relative; }
+    .calc-input-wrap .prefix {
+      position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+      font-size: 0.85rem; font-weight: 600; color: var(--gray);
+    }
+    .calc-input-wrap .suffix {
+      position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+      font-size: 0.75rem; color: var(--gray);
+    }
+    input[type="number"], input[type="text"], select {
+      width: 100%; padding: 0.65rem 0.9rem;
+      border: 1.5px solid #E5E7EB; border-radius: 8px;
+      font-size: 0.9rem; font-family: inherit;
+      background: #FAFAFA; color: #111;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input[type="number"]:focus, select:focus { outline: none; border-color: var(--gold); background: #fff; }
+    .has-prefix input { padding-left: 2rem; }
+    .has-suffix input { padding-right: 3.5rem; }
+    .editable { background: #FFFBEF !important; border-color: #E8C96A !important; }
+
+    .calc-results {
+      background: var(--dark); border-radius: 14px;
+      padding: 1.75rem; margin-top: 1.5rem;
+    }
+    .calc-results h4 { color: var(--white); margin-bottom: 1.25rem; font-size: 0.95rem; }
+    .result-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { font-size: 0.82rem; color: #9CA3AF; }
+    .result-value { font-size: 0.9rem; font-weight: 700; color: var(--white); }
+    .result-row.highlight { background: rgba(201,168,76,0.08); margin: 0 -1rem; padding: 0.75rem 1rem; border-radius: 8px; }
+    .result-row.highlight .result-label { color: var(--gold); font-weight: 600; }
+    .result-row.highlight .result-value { color: var(--gold); font-size: 1.05rem; }
+    .result-row.total { padding-top: 1rem; margin-top: 0.5rem; }
+    .result-row.total .result-label { color: var(--white); font-weight: 700; font-size: 0.9rem; }
+    .result-row.total .result-value { font-size: 1.3rem; color: var(--gold); }
+
+    /* ── Timeline / Flow ── */
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+    .flow::before {
+      content: '';
+      position: absolute; top: 28px; left: 12.5%; right: 12.5%;
+      height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    }
+    .flow-step { text-align: center; padding: 0 1rem; }
+    .flow-dot {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--dark3); border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; font-size: 1.4rem; position: relative; z-index: 1;
+    }
+    .flow-step h4 { font-size: 0.88rem; color: var(--white); margin-bottom: 0.4rem; }
+    .flow-step p { font-size: 0.78rem; color: #6B7280; }
+    .flow-time { font-size: 0.7rem; color: var(--gold); font-weight: 700; margin-top: 0.4rem; }
+
+    /* ── CTA Section ── */
+    #sec-cta { background: var(--dark); padding: 6rem 2rem; }
+    .cta-card {
+      background: linear-gradient(135deg, #1A1A1A 0%, #222 100%);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 24px; padding: 4rem;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(201,168,76,0.1) 0%, transparent 70%);
+    }
+    .cta-card h2 { color: var(--white); position: relative; z-index: 1; }
+    .cta-card p { color: #9CA3AF; font-size: 1.05rem; margin-top: 0.75rem; position: relative; z-index: 1; }
+    .contact-card {
+      display: inline-flex; align-items: center; gap: 1.5rem;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 1.5rem 2.5rem;
+      margin-top: 2.5rem; position: relative; z-index: 1;
+    }
+    .contact-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, #E8A84C 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 900; color: var(--dark);
+    }
+    .contact-info { text-align: left; }
+    .contact-info .name { font-size: 1rem; font-weight: 700; color: var(--white); }
+    .contact-info .role { font-size: 0.8rem; color: #9CA3AF; margin-top: 0.1rem; }
+    .contact-info .email { font-size: 0.82rem; color: var(--gold); margin-top: 0.4rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1.75rem; position: relative; z-index: 1; }
+
+    /* ── Highlight Banner ── */
+    .banner {
+      background: linear-gradient(90deg, rgba(201,168,76,0.12) 0%, rgba(201,168,76,0.04) 100%);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: var(--radius); padding: 1.5rem 2rem;
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .banner-icon { font-size: 2rem; }
+    .banner-text h4 { color: #111; margin-bottom: 0.25rem; }
+    .banner-text p { font-size: 0.85rem; color: #555; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem; text-align: center;
+    }
+    footer p { font-size: 0.78rem; color: #6B7280; }
+    footer strong { color: #9CA3AF; }
+
+    /* ── Utilities ── */
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mt-4 { margin-top: 2rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-3 { margin-bottom: 1.5rem; }
+    .text-gold { color: var(--gold); }
+    .text-sm { font-size: 0.82rem; }
+    .text-xs { font-size: 0.72rem; }
+    .font-bold { font-weight: 700; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero-grid, .grid-2, .calc-grid { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .grid-4 { grid-template-columns: 1fr 1fr; }
+      .flow { grid-template-columns: 1fr 1fr; }
+      .flow::before { display: none; }
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
+    }
+    .cond-list { list-style: none; display: grid; gap: 0.75rem; }
+    .cond-list li { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.9rem; color: #D1D5DB; }
+    .cond-list li .ic { color: var(--gold); font-weight: 800; flex-shrink: 0; }
+    .light .cond-list li { color: #374151; }
+    .status-pill { font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 999px; display: inline-block; margin-top: 0.75rem; }
+    .status-ok { background: rgba(52,211,153,0.12); color: #059669; border: 1px solid rgba(52,211,153,0.3); }
+    .status-no { background: rgba(248,113,113,0.1); color: #DC2626; border: 1px solid rgba(248,113,113,0.3); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <span class="jeeves-logo">Jeeves</span>
+    <div class="nav-divider"></div>
+    <span class="nav-client">KIDS CORP</span>
+  </div>
+  <div class="nav-links">
+    <a href="#sec-acuerdo">Lo acordado</a>
+    <a href="#sec-tarjetas">Tarjetas AR · US</a>
+    <a href="#sec-credito">Condiciones</a>
+    <a href="#sec-calc">Calculadora</a>
+  </div>
+  <a href="#sec-cta" class="nav-cta">Empezar onboarding →</a>
+</nav>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<section id="sec-hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-label">Jeeves × Kids Corp · Propuesta Argentina & Estados Unidos 2026</div>
+        <h1 class="hero-title">
+          Tarjetas corporativas locales<br>
+          <em>donde hoy no tienen.</em>
+        </h1>
+        <p class="hero-subtitle">
+          Argentina es el headquarter y Estados Unidos el próximo gran mercado de Kids Corp. Jeeves les da cuentas y tarjetas a nombre de cada entidad local, sin rebotes, sin costo por emitir tarjetas ni por usar la plataforma — y empezamos con un test sin costo para que prueben antes de decidir.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#sec-acuerdo" class="btn-primary">Ver lo acordado →</a>
+          <a href="#sec-cta" class="btn-ghost">Contactar a María ↓</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="num">US$0</div>
+            <div class="lbl">Apertura · emisión de tarjetas</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">US$50</div>
+            <div class="lbl">De prueba en cada cuenta</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">2%</div>
+            <div class="lbl">Cashback 90 días · sin tope</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">AR + US</div>
+            <div class="lbl">Entidades locales</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="jcard">
+          <div class="jcard-top">
+            <span class="jcard-logo">Jeeves</span>
+            <span class="jcard-elite">Corporate</span>
+          </div>
+          <div class="jcard-mid">
+            <div class="jcard-chip"></div>
+            <span class="jcard-wave">〣</span>
+          </div>
+          <div class="jcard-number">5399 &nbsp;••••&nbsp; •••• &nbsp;4182</div>
+          <div class="jcard-bottom">
+            <div class="jcard-holder">
+              <div class="lbl">Card Holder</div>
+              <div class="val">Matías Sancho</div>
+            </div>
+            <div class="jcard-exp">
+              <div class="lbl">Válida hasta</div>
+              <div class="val">10/29</div>
+            </div>
+            <div class="jcard-company">KIDS CORP</div>
+          </div>
+        </div>
+        <p class="jcard-caption">Tarjeta corporativa <strong>Jeeves</strong> · Emitida a nombre de la entidad de Kids Corp · Nominada al colaborador</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ① ACUERDO ═══════════════════════════════ -->
+<section id="sec-acuerdo" class="section dark">
+  <div class="container">
+    <div class="sec-header">
+      <div class="section-badge">① Lo que acordamos</div>
+      <h2>Un test real en Argentina y Estados Unidos,<br><em>sin costo para Kids Corp.</em></h2>
+      <p>Arrancamos el onboarding de las entidades de Argentina y Estados Unidos. Jeeves carga USD 50 en cada cuenta para que prueben las tarjetas en gastos chicos (Uber, Amazon, software) sin poner su propia plata. Si les funciona, fondean y activan el beneficio de cashback.</p>
+    </div>
+
+    <!-- Flow -->
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot">📋</div>
+        <h4>Onboarding AR + US</h4>
+        <p>Apertura de ambas entidades, sin costo de apertura</p>
+        <div class="flow-time">AR: ≤ 10 días hábiles</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">🎁</div>
+        <h4>Test con USD 50</h4>
+        <p>Jeeves carga USD 50 en cada cuenta para probar las tarjetas</p>
+        <div class="flow-time">Al abrir la cuenta</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">💳</div>
+        <h4>Fondeo + gasto</h4>
+        <p>Fondean cada cuenta y gastan USD 1.000 o más con tarjeta</p>
+        <div class="flow-time">Primeros 30 días</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">⚡</div>
+        <h4>2% cashback</h4>
+        <p>Sobre todo el gasto con tarjeta, sin tope</p>
+        <div class="flow-time">Primeros 90 días</div>
+      </div>
+    </div>
+
+    <div class="mt-4 grid-2">
+      <div class="feat-card" style="border-color: rgba(201,168,76,0.35);">
+        <div class="feat-icon">✅</div>
+        <h4>Lo que pone Jeeves</h4>
+        <ul class="cond-list" style="margin-top: 0.75rem;">
+          <li><span class="ic">✓</span> Onboarding de las entidades de Argentina y Estados Unidos</li>
+          <li><span class="ic">✓</span> Sin costo de apertura</li>
+          <li><span class="ic">✓</span> USD 50 cargados en cada cuenta para hacer el test</li>
+          <li><span class="ic">✓</span> 2% de cashback durante los primeros 90 días, sobre todo el gasto con tarjeta y sin tope</li>
+        </ul>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🤝</div>
+        <h4>Lo que se compromete Kids Corp (caso de éxito)</h4>
+        <ul class="cond-list" style="margin-top: 0.75rem;">
+          <li><span class="ic">→</span> Fondear cada cuenta dentro de los primeros 30 días desde la apertura</li>
+          <li><span class="ic">→</span> Realizar un gasto con tarjeta de USD 1.000 o más por cuenta en esos primeros 30 días</li>
+          <li><span class="ic">→</span> Si se cumplen ambas condiciones, se activa el 2% de cashback por 90 días</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <div class="banner" style="background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.2);">
+        <div class="banner-icon">🚀</div>
+        <div class="banner-text" style="color: white;">
+          <h4 style="color: var(--gold);">¿Por qué importa para Kids Corp?</h4>
+          <p style="color: #9CA3AF;">Porque el headquarter está en Argentina y hoy no tienen tarjetas ahí. Porque en Estados Unidos ya hay equipo y está entrando una directora general, que necesita una <strong style="color: var(--gold);">tarjeta local que no rebote</strong>. Y porque, por compliance, cada colaborador debería usar la tarjeta de <strong style="color: var(--gold);">la entidad donde trabaja</strong> — no la de la entidad mexicana.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ② TARJETAS ═══════════════════════════════ -->
+<section id="sec-tarjetas" class="section">
+  <div class="container">
+    <div class="sec-header">
+      <div class="section-badge light">② Tarjetas Corporativas · Argentina y Estados Unidos</div>
+      <h2>Una cuenta por entidad,<br><em>una tarjeta por persona.</em></h2>
+      <p>Cada cuenta se abre a nombre de la entidad local de Kids Corp, así los comprobantes quedan a nombre de la empresa que corresponde. Las tarjetas son corporativas y van nominadas a cada colaborador.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="feat-card-light">
+        <div class="feat-icon">🇦🇷</div>
+        <h4>Argentina, donde está el headquarter</h4>
+        <p>Tarjetas denominadas en dólares: sin la percepción del 30% al pagar con tarjeta y sin comisión adicional por uso. Fondean con un CBU local en pesos y reciben dólares en unos 20 minutos, viendo el tipo de cambio en tiempo real antes de transferir y sin costos adicionales.</p>
+      </div>
+      <div class="feat-card-light">
+        <div class="feat-icon">🇺🇸</div>
+        <h4>Estados Unidos, sin rebotes</h4>
+        <p>Una cuenta local para la LLC y tarjetas para el equipo que se está armando, incluida la nueva directora general. Sin precargas manuales tarjeta por tarjeta y con una apertura que hoy está saliendo rápido.</p>
+      </div>
+      <div class="feat-card-light">
+        <div class="feat-icon">📲</div>
+        <h4>Comprobantes por WhatsApp</h4>
+        <p>Cada tarjeta se asocia a un número de teléfono: cuando alguien gasta, le llega el aviso por WhatsApp y puede subir ahí mismo la factura. Se acabó la gestión de comprobantes armada por fuera.</p>
+      </div>
+      <div class="feat-card-light">
+        <div class="feat-icon">💱</div>
+        <h4>Fondeo en cualquier moneda</h4>
+        <p>Pueden fondear con pesos argentinos, dólares, pesos mexicanos o reales — los fondos se acreditan en dólares. Desde la cuenta pagan con tarjeta y también a proveedores.</p>
+      </div>
+    </div>
+
+    <!-- Live purchase demo -->
+    <div class="mt-4" style="background: #0A0A0A; border-radius: 20px; padding: 2rem; border: 1px solid #222;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <span style="font-size: 0.7rem; color: #6B7280; text-transform: uppercase; letter-spacing: 0.1em;">COMPRA APROBADA · EN VIVO</span>
+        <span style="font-size: 0.7rem; color: #34D399; font-weight: 700;">● CONFIRMADA</span>
+      </div>
+      <div style="font-size: 2.5rem; font-weight: 900; color: white; letter-spacing: -0.04em;">USD 240.00<span style="color: var(--gold); font-size: 1rem; font-weight: 700; margin-left: 0.5rem;">Licencia de software · Equipo AdTech</span></div>
+      <div style="font-size: 0.82rem; color: #6B7280; margin-top: 0.3rem;">Tarjeta virtual #Software · Titular: Kids Corp (Argentina) · Nominada: Luciana Szpryngier</div>
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap;">
+        <span style="font-size: 0.78rem; background: rgba(52,211,153,0.1); color: #34D399; border: 1px solid rgba(52,211,153,0.2); padding: 0.4rem 0.9rem; border-radius: 999px;">✓ Sin percepción del 30%</span>
+        <span style="font-size: 0.78rem; background: rgba(52,211,153,0.1); color: #34D399; border: 1px solid rgba(52,211,153,0.2); padding: 0.4rem 0.9rem; border-radius: 999px;">✓ Comprobante pedido por WhatsApp</span>
+        <span style="font-size: 0.78rem; background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); padding: 0.4rem 0.9rem; border-radius: 999px;">⚡ US$0 por emisión de tarjeta</span>
+        <span style="font-size: 0.78rem; background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); padding: 0.4rem 0.9rem; border-radius: 999px;">🎁 2% cashback · primeros 90 días</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ③ CONDICIONES ═══════════════════════════════ -->
+<section id="sec-credito" class="section" style="background: #F3F4F6;">
+  <div class="container">
+    <div class="sec-header">
+      <div class="section-badge light">③ Condiciones comerciales</div>
+      <h2>Empiecen con fondos propios,<br><em>pasen a crédito cuando quieran.</em></h2>
+      <p>Para Argentina y Estados Unidos hay dos caminos. El acordado es empezar con fondos propios y, con unos tres meses de historial, evaluar la línea de crédito.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="feat-card-light">
+        <div class="feat-icon">💳</div>
+        <h4>Plataforma y tarjetas</h4>
+        <p>Sin cobro por emitir tarjetas físicas o virtuales ni por usar la plataforma. Si operan en los cuatro países (Argentina, Estados Unidos, México y Brasil), aplica un fee anual de <strong>USD 3.500 por las 4 entidades</strong>.</p>
+      </div>
+      <div class="feat-card-light" style="border-color: #E8C96A;">
+        <div class="feat-icon">🧪</div>
+        <h4>Opción acordada · Fondos propios</h4>
+        <p>Cargan la cuenta y usan tarjetas y pagos a proveedores sin costo por hacer la prueba. Tras <strong>unos tres meses de historial transaccional</strong>, evaluamos una línea de crédito con esos datos.</p>
+      </div>
+      <div class="feat-card-light">
+        <div class="feat-icon">🏦</div>
+        <h4>Línea de crédito AR · US</h4>
+        <p>Crédito <strong>revolvente a 37 días</strong>, que normalmente requiere un <strong>colateral del 10%</strong> de la línea.</p>
+      </div>
+    </div>
+
+    <div class="mt-3" style="background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 1.25rem 1.5rem;">
+      <p style="font-size: 0.82rem; color: #555;"><strong>¿Por qué colateral en Argentina?</strong> Regulatoriamente no podemos otorgar crédito en pesos en Argentina, por eso la línea es en dólares y se respalda con colateral. No tiene que ver con el perfil de Kids Corp: es la misma estructura para todos los clientes en Argentina y Estados Unidos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ④ CALCULADORA ═══════════════════════════════ -->
+<section id="sec-calc" class="section">
+  <div class="container">
+    <div class="sec-header center">
+      <div class="section-badge light">④ Calculadora</div>
+      <h2>Cuánto vale el test<br><em>en dólares.</em></h2>
+      <p>Ingresen el gasto esperado con tarjeta en cada cuenta y miren el cashback del período y, si después pasan a crédito, el colateral requerido.</p>
+    </div>
+
+    <div class="calc-wrapper">
+      <div class="calc-header">
+        <h3>💰 Calculadora · Kids Corp × Jeeves</h3>
+        <span class="badge">Celdas en dorado = editables · Recalcula al instante</span>
+      </div>
+      <div class="calc-body">
+        <div class="calc-grid">
+          <!-- LEFT: Inputs -->
+          <div>
+            <div class="calc-section-title">💳 Gasto mensual con tarjeta</div>
+
+            <div class="calc-field">
+              <label>Cuenta Argentina</label>
+              <div class="calc-input-wrap has-prefix has-suffix">
+                <span class="prefix">$</span>
+                <input type="number" id="gasto_ar" value="5000" step="500" class="editable" oninput="calcular()">
+                <span class="suffix">USD/mes</span>
+              </div>
+              <div class="hint">Licencias de software, viajes y gastos del equipo en Argentina.</div>
+            </div>
+
+            <div class="calc-field">
+              <label>Cuenta Estados Unidos</label>
+              <div class="calc-input-wrap has-prefix has-suffix">
+                <span class="prefix">$</span>
+                <input type="number" id="gasto_us" value="5000" step="500" class="editable" oninput="calcular()">
+                <span class="suffix">USD/mes</span>
+              </div>
+              <div class="hint">Gastos del equipo y la dirección general en Estados Unidos.</div>
+            </div>
+
+            <div class="calc-section-title" style="margin-top: 1.5rem;">🏦 Si después pasan a crédito (AR + US)</div>
+
+            <div class="calc-field">
+              <label>Línea de crédito total estimada</label>
+              <div class="calc-input-wrap has-prefix has-suffix">
+                <span class="prefix">$</span>
+                <input type="number" id="linea" value="20000" step="1000" class="editable" oninput="calcular()">
+                <span class="suffix">USD</span>
+              </div>
+              <div class="hint">Se define con el estudio de crédito y el historial de los primeros meses.</div>
+            </div>
+
+            <div class="calc-field">
+              <label>Colateral de referencia</label>
+              <div class="calc-input-wrap has-suffix">
+                <input type="text" value="10% de la línea" readonly style="background: #F3F4F6; color: #6B7280; cursor: default;">
+              </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
+              <span style="font-size: 0.72rem; font-weight: 700; background: #FDF3D7; color: #8A6D2B; padding: 0.3rem 0.7rem; border-radius: 999px;">✦ US$0 apertura</span>
+              <span style="font-size: 0.72rem; font-weight: 600; background: #F3F4F6; color: #374151; padding: 0.3rem 0.7rem; border-radius: 999px;">✓ US$50 de prueba por cuenta</span>
+              <span style="font-size: 0.72rem; font-weight: 600; background: #FDF3D7; color: #8A6D2B; padding: 0.3rem 0.7rem; border-radius: 999px;">🎁 2% cashback · 90 días · sin tope</span>
+            </div>
+          </div>
+
+          <!-- RIGHT: Results -->
+          <div>
+            <div class="calc-section-title">✅ Resultado</div>
+
+            <div class="calc-results">
+              <h4>Primeros 90 días con Jeeves</h4>
+
+              <div class="result-row">
+                <span class="result-label">Crédito de prueba Jeeves (USD 50 × 2 cuentas)</span>
+                <span class="result-value" style="color: #34D399;">US$ 100</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Condición: ≥ USD 1.000 por cuenta en 30 días</span>
+                <span class="result-value" id="r_cond">—</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Gasto con tarjeta en 90 días (AR + US)</span>
+                <span class="result-value" id="r_gasto90">—</span>
+              </div>
+              <div class="result-row highlight">
+                <span class="result-label">🎁 Cashback 2% · 90 días</span>
+                <span class="result-value" id="r_cashback">—</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Costo de apertura y emisión de tarjetas</span>
+                <span class="result-value" style="color: #34D399;">US$ 0</span>
+              </div>
+
+              <div style="height: 1px; background: rgba(255,255,255,0.06); margin: 1rem 0;"></div>
+
+              <div class="result-row">
+                <span class="result-label">Colateral requerido (10% de la línea)</span>
+                <span class="result-value" id="r_colateral">—</span>
+              </div>
+
+              <div class="result-row total">
+                <span class="result-label">🏆 Beneficio total del test (USD)</span>
+                <span class="result-value" id="r_total">—</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 1.25rem; background: #F9F9F7; border: 1px solid #E5E7EB; border-radius: 12px; padding: 1.25rem;">
+              <p style="font-size: 0.75rem; color: #6B7280;">* Cálculos estimados. El cashback del 2% aplica sobre todo el gasto con tarjeta, sin tope, durante los primeros 90 días, siempre que cada cuenta se fondee y registre un gasto con tarjeta de USD 1.000 o más en sus primeros 30 días desde la apertura. El beneficio total suma los USD 100 de prueba y el cashback. El colateral (normalmente 10% de la línea) aplica solo si optan por línea de crédito en Argentina y Estados Unidos. Si operan en 4 países, aplica un fee anual de USD 3.500 por las 4 entidades.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ECOSISTEMA ═══════════════════════════════ -->
+<section class="section dark">
+  <div class="container">
+    <div class="sec-header center">
+      <div class="section-badge">Hoy AR + US · mañana los 4 países</div>
+      <h2>Una plataforma<br><em>para todo LATAM y Estados Unidos.</em></h2>
+      <p>Si el test funciona, Jeeves opera también en México y Brasil, con línea de crédito revolvente a 37 días, tarjetas y pagos a proveedores locales — todo en un solo panel.</p>
+    </div>
+
+    <div class="grid-3" style="margin-bottom: 3rem;">
+      <div class="feat-card" style="text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🇦🇷</div>
+        <h4>Argentina</h4>
+        <p style="font-size: 0.82rem;">Tarjetas en USD, sin percepción del 30%, fondeo por CBU en pesos</p>
+      </div>
+      <div class="feat-card" style="text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🇺🇸</div>
+        <h4>Estados Unidos</h4>
+        <p style="font-size: 0.82rem;">Cuenta local para la LLC y tarjetas para el nuevo equipo</p>
+      </div>
+      <div class="feat-card" style="text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🇲🇽 🇧🇷</div>
+        <h4>México y Brasil</h4>
+        <p style="font-size: 0.82rem;">Línea de crédito sin prepago, tarjetas y pagos a proveedores locales</p>
+      </div>
+      <div class="feat-card" style="text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📲</div>
+        <h4>WhatsApp</h4>
+        <p style="font-size: 0.82rem;">Aviso de cada gasto y carga del comprobante desde el chat</p>
+      </div>
+      <div class="feat-card" style="text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎛️</div>
+        <h4>Control</h4>
+        <p style="font-size: 0.82rem;">Límites, congelado y cancelación de tarjetas en un clic, desde la app</p>
+      </div>
+      <div class="feat-card" style="text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🏢</div>
+        <h4>Pagos a proveedores</h4>
+        <p style="font-size: 0.82rem;">Desde la misma cuenta, con fondos propios o con la línea de crédito</p>
+      </div>
+    </div>
+
+    <!-- Big numbers -->
+    <div class="grid-4">
+      <div style="text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.04); border-radius: var(--radius); border: 1px solid var(--border);">
+        <div style="font-size: 2.2rem; font-weight: 900; color: var(--gold); letter-spacing: -0.04em;">37 días</div>
+        <div style="font-size: 0.78rem; color: #6B7280; margin-top: 0.3rem;">Crédito revolvente</div>
+      </div>
+      <div style="text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.04); border-radius: var(--radius); border: 1px solid var(--border);">
+        <div style="font-size: 2.2rem; font-weight: 900; color: var(--gold); letter-spacing: -0.04em;">~20 min</div>
+        <div style="font-size: 0.78rem; color: #6B7280; margin-top: 0.3rem;">De pesos a USD en la cuenta</div>
+      </div>
+      <div style="text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.04); border-radius: var(--radius); border: 1px solid var(--border);">
+        <div style="font-size: 2.2rem; font-weight: 900; color: var(--gold); letter-spacing: -0.04em;">2%</div>
+        <div style="font-size: 0.78rem; color: #6B7280; margin-top: 0.3rem;">Cashback 90 días · sin tope</div>
+      </div>
+      <div style="text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.04); border-radius: var(--radius); border: 1px solid var(--border);">
+        <div style="font-size: 2.2rem; font-weight: 900; color: var(--gold); letter-spacing: -0.04em;">US$0</div>
+        <div style="font-size: 0.78rem; color: #6B7280; margin-top: 0.3rem;">Por emisión de tarjetas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ CTA ═══════════════════════════════ -->
+<section id="sec-cta">
+  <div class="container">
+    <div class="cta-card">
+      <div class="section-badge" style="background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.3);">Próximo paso</div>
+      <h2>Matías &amp; Luciana, arranquemos el onboarding.</h2>
+      <p>Ya les compartimos los links de onboarding de Argentina y Estados Unidos con la documentación solicitada para la apertura. Argentina suele salir en no más de 10 días hábiles, y en Estados Unidos suele ser aún más rápido.</p>
+
+      <div class="contact-card">
+        <div class="contact-avatar">MS</div>
+        <div class="contact-info">
+          <div class="name">María Sabatella Sanguinetti</div>
+          <div class="role">Sales · Jeeves</div>
+          <div class="email">maria.sanguinetti@tryjeeves.com</div>
+        </div>
+      </div>
+      <p style="font-size: 0.78rem; color: #9CA3AF; margin-top: 1rem; position: relative; z-index: 1;">Con el acompañamiento de <strong style="color: var(--gold);">Diego Gómez Charry</strong> · Jeeves</p>
+
+      <div class="cta-buttons">
+        <a href="mailto:maria.sanguinetti@tryjeeves.com?subject=Kids%20Corp%20%C3%97%20Jeeves%20%C2%B7%20Onboarding%20Argentina%20y%20Estados%20Unidos&body=Hola%20Mar%C3%ADa%2C%20queremos%20avanzar%20con%20el%20onboarding%20de%20Kids%20Corp%20en%20Argentina%20y%20Estados%20Unidos."
+           class="btn-primary">✓ Contactar a María</a>
+      </div>
+      <p style="font-size: 0.75rem; color: #6B7280; margin-top: 1rem; position: relative; z-index: 1;">Se abrirá tu cliente de correo con un mensaje listo para María · maria.sanguinetti@tryjeeves.com</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+  <p>
+    <strong>Jeeves</strong> · tryjeeves.com · Propuesta Tarjetas Corporativas Argentina + Estados Unidos · Kids Corp<br>
+    <span style="margin-top: 0.3rem; display: inline-block;">Elaborado por María Sabatella Sanguinetti y Diego Gómez Charry · Jeeves</span>
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════ JS CALCULADORA ═══════════════════════════════ -->
+<script>
+  function fmtUSD(n) {
+    return new Intl.NumberFormat('es-AR', {
+      style: 'currency', currency: 'USD',
+      minimumFractionDigits: 0, maximumFractionDigits: 0
+    }).format(n);
+  }
+
+  function calcular() {
+    const gasto_ar = Math.max(0, parseFloat(document.getElementById('gasto_ar').value) || 0);
+    const gasto_us = Math.max(0, parseFloat(document.getElementById('gasto_us').value) || 0);
+    const linea    = Math.max(0, parseFloat(document.getElementById('linea').value) || 0);
+
+    const CASHBACK_PCT  = 0.02;   // 2% sin tope
+    const MESES         = 3;      // primeros 90 días
+    const MIN_GASTO     = 1000;   // USD por cuenta en los primeros 30 días
+    const TEST          = 100;    // USD 50 × 2 cuentas
+    const COLATERAL_PCT = 0.10;
+
+    const cumple   = gasto_ar >= MIN_GASTO && gasto_us >= MIN_GASTO;
+    const gasto90  = (gasto_ar + gasto_us) * MESES;
+    const cashback = cumple ? gasto90 * CASHBACK_PCT : 0;
+    const colat    = linea * COLATERAL_PCT;
+
+    const cond = document.getElementById('r_cond');
+    cond.textContent = cumple ? '✓ Se cumple' : '✗ No se cumple';
+    cond.style.color = cumple ? '#34D399' : '#F87171';
+
+    document.getElementById('r_gasto90').textContent   = fmtUSD(gasto90);
+    document.getElementById('r_cashback').textContent  = fmtUSD(cashback);
+    document.getElementById('r_colateral').textContent = fmtUSD(colat);
+    document.getElementById('r_total').textContent     = fmtUSD(TEST + cashback);
+  }
+
+  calcular();
+</script>
+
+</body>
+</html>
